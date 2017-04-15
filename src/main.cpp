@@ -1,3 +1,4 @@
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -51,6 +52,9 @@ void check_files(ifstream& in_file, string& in_name,
 
 int main(int argc, char* argv[]) {
 
+  std::cout << "Arguments count : " << argc << std::endl;
+  std::cout << "Arguments       : " << argv[1] << " " << argv[2] << std::endl;
+
   check_arguments(argc, argv);
 
   string in_file_name_ = argv[1];
@@ -60,6 +64,9 @@ int main(int argc, char* argv[]) {
   ofstream out_file_(out_file_name_.c_str(), ofstream::out);
 
   check_files(in_file_, in_file_name_, out_file_, out_file_name_);
+
+  std::cout << "Input file : " << in_file_name_ << std::endl;
+  std::cout << "Output file: " << out_file_name_ << std::endl;
 
   vector<MeasurementPackage> measurement_pack_list;
   vector<GroundTruthPackage> gt_pack_list;
@@ -74,7 +81,8 @@ int main(int argc, char* argv[]) {
     MeasurementPackage meas_package;
     GroundTruthPackage gt_package;
     istringstream iss(line);
-    long long timestamp;
+    long long timestamp;                  // changed to long long (was just long)
+                                          // required to read file correctly on Windows (Visual Studio 2017)
 
     // reads first element from the current line
     iss >> sensor_type;
@@ -92,6 +100,10 @@ int main(int argc, char* argv[]) {
       iss >> timestamp;
       meas_package.timestamp_ = timestamp;
       measurement_pack_list.push_back(meas_package);
+
+      //debug
+      std::cout << "Lidar measurement: " << meas_package.raw_measurements_ << " " << meas_package.timestamp_ << std::endl;
+
     } else if (sensor_type.compare("R") == 0) {
       // RADAR MEASUREMENT
 
@@ -99,15 +111,18 @@ int main(int argc, char* argv[]) {
       meas_package.sensor_type_ = MeasurementPackage::RADAR;
       meas_package.raw_measurements_ = VectorXd(3);
       float ro;
-      float phi;
+      float theta;
       float ro_dot;
       iss >> ro;
-      iss >> phi;
+      iss >> theta;
       iss >> ro_dot;
-      meas_package.raw_measurements_ << ro, phi, ro_dot;
+      meas_package.raw_measurements_ << ro, theta, ro_dot;
       iss >> timestamp;
       meas_package.timestamp_ = timestamp;
       measurement_pack_list.push_back(meas_package);
+
+      std::cout << "Radar measurement: " << meas_package.raw_measurements_ << " " << meas_package.timestamp_ << std::endl;
+
     }
 
     // read ground truth data to compare later
@@ -122,6 +137,10 @@ int main(int argc, char* argv[]) {
     gt_package.gt_values_ = VectorXd(4);
     gt_package.gt_values_ << x_gt, y_gt, vx_gt, vy_gt;
     gt_pack_list.push_back(gt_package);
+
+    // debug
+    std::cout << "Ground truth values: " << gt_package.gt_values_ << std::endl;
+
   }
 
   // Create a Fusion EKF instance
@@ -180,5 +199,5 @@ int main(int argc, char* argv[]) {
     in_file_.close();
   }
 
-  return 0;
+  return 0; 
 }
