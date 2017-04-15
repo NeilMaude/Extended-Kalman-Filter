@@ -3,6 +3,7 @@ Self-Driving Car Engineer Nanodegree Program
 Implementation of an EKF in C++
 
 Neil Maude, April 2017
+
 ---
 
 ## Dependencies
@@ -38,6 +39,7 @@ project and floating point variables were left as `float` type.
 
 ### File #1 results
 Results when using file `sample-laser-radar-measurement-data-1.txt`:
+
 RMSE values:
 0.0651648
 0.0605379
@@ -46,6 +48,7 @@ RMSE values:
 
 ### File #2 results
 Results when using file `sample-laser-radar-measurement-data-2.txt`:
+
 RMSE values:
 0.185496
 0.190302
