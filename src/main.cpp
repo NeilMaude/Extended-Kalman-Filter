@@ -52,8 +52,12 @@ void check_files(ifstream& in_file, string& in_name,
 
 int main(int argc, char* argv[]) {
 
+  /*
+  // echo arguments count and expect arguments values - useful in debug
   std::cout << "Arguments count : " << argc << std::endl;
   std::cout << "Arguments       : " << argv[1] << " " << argv[2] << std::endl;
+  // end of debug code
+  */
 
   check_arguments(argc, argv);
 
@@ -65,8 +69,10 @@ int main(int argc, char* argv[]) {
 
   check_files(in_file_, in_file_name_, out_file_, out_file_name_);
 
+  // echo file names - useful when checking the arguments handling with Visual Studio enironment
   std::cout << "Input file : " << in_file_name_ << std::endl;
   std::cout << "Output file: " << out_file_name_ << std::endl;
+  // end of debug code
 
   vector<MeasurementPackage> measurement_pack_list;
   vector<GroundTruthPackage> gt_pack_list;
@@ -101,8 +107,9 @@ int main(int argc, char* argv[]) {
       meas_package.timestamp_ = timestamp;
       measurement_pack_list.push_back(meas_package);
 
-      //debug
-      std::cout << "Lidar measurement: " << meas_package.raw_measurements_ << " " << meas_package.timestamp_ << std::endl;
+      // debug - send Lidar measurement to console
+      //std::cout << "Lidar measurement: " << meas_package.raw_measurements_ << " " << meas_package.timestamp_ << std::endl;
+      // end of debug code
 
     } else if (sensor_type.compare("R") == 0) {
       // RADAR MEASUREMENT
@@ -121,7 +128,9 @@ int main(int argc, char* argv[]) {
       meas_package.timestamp_ = timestamp;
       measurement_pack_list.push_back(meas_package);
 
-      std::cout << "Radar measurement: " << meas_package.raw_measurements_ << " " << meas_package.timestamp_ << std::endl;
+      // debug - send Radar measurement to console
+      //std::cout << "Radar measurement: " << meas_package.raw_measurements_ << " " << meas_package.timestamp_ << std::endl;
+      // end of debug code
 
     }
 
@@ -138,8 +147,9 @@ int main(int argc, char* argv[]) {
     gt_package.gt_values_ << x_gt, y_gt, vx_gt, vy_gt;
     gt_pack_list.push_back(gt_package);
 
-    // debug
-    std::cout << "Ground truth values: " << gt_package.gt_values_ << std::endl;
+    // debug - send ground truth values to console
+    //std::cout << "Ground truth values: " << gt_package.gt_values_ << std::endl;
+    // end of debug code
 
   }
 

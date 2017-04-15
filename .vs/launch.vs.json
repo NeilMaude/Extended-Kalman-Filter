@@ -1,0 +1,16 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "ExtendedKF",
+      "name": "ExtendedKF",
+      "args": [
+        "D:\\Git\\C++\\Extended-Kalman-Filter\\data\\sample-laser-radar-measurement-data-1.txt",
+        "D:\\Git\\C++\\Extended-Kalman-Filter\\data\\output1.txt"
+      ]
+    }
+  ]
+}

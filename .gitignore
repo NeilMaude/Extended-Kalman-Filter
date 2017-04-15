@@ -22,3 +22,15 @@ xcuserdata/
 *.xcscmblueprint
 ide_profiles/xcode/Debug/
 ide_profiles/xcode/ExtendedKF.build/
+
+.vs/config/applicationhost.config
+*.suo
+.vs/EKF_Project/v15/Browse.VC.db
+*.ipch
+.vs/Extended-Kalman-Filter/v15/Browse.VC.db
+*.opendb
+.vs/slnx.sqlite
+data/output1.txt
+data/output2.txt
+comp_out1.txt
+ExtendedKF.exe
