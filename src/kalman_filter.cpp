@@ -38,13 +38,19 @@ void KalmanFilter::Update(const VectorXd &z) {
     * update the state by using Kalman Filter equations
   */
   // Standard Kalman Filter Equations
+  
+  // Would be possible to re-factor much of this code with a shared function 
+  //  allowing code to be shared between the standard and extended Kalman Filter.
+  //  Kept separate for now to keep it clear how each operates...
+
   VectorXd z_pred = H_ * x_;
   VectorXd y = z - z_pred;
   MatrixXd Ht = H_.transpose();
-  MatrixXd S = H_ * P_ * Ht + R_;
+  MatrixXd PHt = P_ * Ht;  
+  MatrixXd S = H_ * PHt + R_;         // was H_ * P_ * Ht + R_ but is now optimised to calc P_ * Ht once only
   MatrixXd Si = S.inverse();
-  MatrixXd PHt = P_ * Ht;
   MatrixXd K = PHt * Si;
+
   // Calculate the new estimate
   x_ = x_ + (K * y);
   // Need an identity matrix of the correct size
@@ -60,6 +66,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     * update the state by using Extended Kalman Filter equations
   */
   // Extended Kalman Filter Equations
+
+  // Would be possible to re-factor much of this code with a shared function 
+  //  allowing code to be shared between the standard and extended Kalman Filter.
+  //  Kept separate for now to keep it clear how each operates...
+
   float rho_pred    =  pow(pow(x_[0],2) + pow(x_[1],2),0.5);
   float phi_pred    =  0.0;
   if (fabs(x_[0]) > 0.01) {
@@ -74,10 +85,9 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   VectorXd y = z - z_pred;  
   MatrixXd Ht = H_.transpose();
-  
-  MatrixXd S = H_ * P_ * Ht + R_;
+  MatrixXd PHt = P_ * Ht;  
+  MatrixXd S = H_ * PHt + R_;     // was H_ * P_ * Ht + R_ but is now optimised to calc P_ * Ht once only
   MatrixXd Si = S.inverse();
-  MatrixXd PHt = P_ * Ht;
   MatrixXd K = PHt * Si;
 
   // Calculate the new estimate
