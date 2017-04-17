@@ -21,6 +21,12 @@ Project further developed using Visual Studio 2017 (as a CMake project).
 
 ## Development Notes
 
+Kept the Update() and UpdateEKF() functions separate, to demonstrate the difference
+between Lidar and Radar updates.  Could re-factor into a single function for more
+elegance.
+
+Note also that duplicate calculations have been removed for efficiency in calcs.
+
 ### Changes to Provided Code
 
 1. Changed the type of the timestamp variable in `main.cpp` to `long long` (was `long`)
